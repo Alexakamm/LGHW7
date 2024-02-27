@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ljpkdmnextkb"]
+[gd_scene load_steps=12 format=3 uid="uid://ljpkdmnextkb"]
 
 [ext_resource type="Texture2D" uid="uid://bcj18f1u388bl" path="res://Art/TileMap_SF/tileset_sf.png" id="2_ng7a1"]
 [ext_resource type="Script" path="res://Scripts/Scripts Only for Homework Exercises/ShowHide_HW_four.gd" id="2_wvvwv"]
@@ -5556,6 +5556,9 @@ size = Vector2(64, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4w6ir"]
 size = Vector2(64, 64)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_36s5n"]
+size = Vector2(64, 128)
+
 [node name="Node2D" type="Node2D"]
 
 [node name="OpenDoorButton" type="Button" parent="."]
@@ -5565,6 +5568,14 @@ offset_right = 207.0
 offset_bottom = 198.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_bends")
 text = "Open Door"
+
+[node name="CloseDoorButton" type="Button" parent="."]
+offset_left = 227.0
+offset_top = 99.0
+offset_right = 408.0
+offset_bottom = 196.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bends")
+text = "Close Door"
 
 [node name="BackgroundTilemap" type="TileMap" parent="."]
 position = Vector2(16, 0)
@@ -5582,7 +5593,6 @@ script = ExtResource("2_wvvwv")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(736, 248)
-collision_mask = 3
 motion_mode = 1
 script = ExtResource("4_gmus0")
 movement_speed = 100.0
@@ -5602,7 +5612,6 @@ collision_mask = 2
 script = ExtResource("5_o47ds")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-visible = false
 shape = SubResource("RectangleShape2D_4w6ir")
 
 [node name="Instructions" type="RichTextLabel" parent="."]
@@ -5628,3 +5637,14 @@ theme_override_colors/default_color = Color(0, 0.941176, 0.780392, 1)
 text = "HINT:
 
 You can copy from demo_scene_class.tscn if you get stuck, but try to do it on your own!"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(736, 144)
+shape = SubResource("RectangleShape2D_36s5n")
+
+[connection signal="pressed" from="OpenDoorButton" to="ForegroundTilemap" method="_on_open_door_button_pressed"]
+[connection signal="pressed" from="CloseDoorButton" to="ForegroundTilemap" method="_on_close_door_button_pressed"]
+[connection signal="body_entered" from="Area2D" to="ForegroundTilemap" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="ForegroundTilemap" method="_on_area_2d_body_exited"]
